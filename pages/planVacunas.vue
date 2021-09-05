@@ -279,8 +279,7 @@ export default {
       }
       document.getElementById("fechaReserva").min =
         anio + "-" + mes + "-" + dia;
-      document.getElementById("fechaReserva1").min =
-        anio + "-" + mes + "-" + dia;
+     
     },
 
       async fechaEdit() {
