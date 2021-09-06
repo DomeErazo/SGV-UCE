@@ -14,13 +14,15 @@
                 <p>Por favor ingrese el plan para la faculdad deseada:</p>
                 <v-row>
                   <v-col cols="5">
-                    <v-text-field
+                 <v-text-field
+                    action="/action_page.php"
                       label="Fecha de Inicio"
                       outlined
                       rounded
                       v-model="fechaInicio"
                       :rules="[() => !!fechaInicio || 'Campo obligatorio']"
                       type="date"
+                     onkeydown="return false"
                       @click="fecha"
                       color="primary"
                       id="fechaReserva"
@@ -36,9 +38,11 @@
                       rounded
                       type="date"
                       v-model="fechaFin"
+                      :rules="[() => !!fechaFin || 'Campo Obligatorio']"
                       @click="fecha"
+                      onkeydown="return false"
                       color="primary"
-                      id="fechaReserva1"
+                      id="fechaReservaFinal"
                       name="txtfechainicio1"
                     >
                     </v-text-field>
@@ -128,6 +132,7 @@
                               type="date"
                               @click="fechaEdit"
                               color="primary"
+                              onkeydown="return false"
                               id="fechaReserva2"
                               name="txtfechainicio"
                             >
@@ -141,6 +146,7 @@
                               @click="fechaEdit"
                               color="primary"
                               id="fechaReserva3"
+                              onkeydown="return false"
                               name="txtfechainicio"
                             >
                             </v-text-field>
@@ -266,38 +272,13 @@ export default {
   },
   methods: {
     async fecha() {
-      var fecha = new Date();
-      var anio = fecha.getFullYear();
-      var dia = fecha.getDate();
-      var _mes = fecha.getMonth(); //viene con valores de 0 al 11
-      _mes = _mes + 1; //ahora lo tienes de 1 al 12
-      if (_mes < 10) {
-        //ahora le agregas un 0 para el formato date
-        var mes = "0" + _mes;
-      } else {
-        var mes = _mes.toString;
-      }
-      document.getElementById("fechaReserva").min =
-        anio + "-" + mes + "-" + dia;
-     
-    },
+     fechaReserva.min = new Date().toISOString().split("T")[0];
+     fechaReservaFinal.min = new Date().toISOString().split("T")[0];
+     },
 
       async fechaEdit() {
-      var fecha = new Date();
-      var anio = fecha.getFullYear();
-      var dia = fecha.getDate();
-      var _mes = fecha.getMonth(); //viene con valores de 0 al 11
-      _mes = _mes + 1; //ahora lo tienes de 1 al 12
-      if (_mes < 10) {
-        //ahora le agregas un 0 para el formato date
-        var mes = "0" + _mes;
-      } else {
-        var mes = _mes.toString;
-      }
-      document.getElementById("fechaReserva2").min =
-        anio + "-" + mes + "-" + dia;
-      document.getElementById("fechaReserva3").min =
-        anio + "-" + mes + "-" + dia;
+     fechaReserva2.min = new Date().toISOString().split("T")[0];
+     fechaReserva3.min = new Date().toISOString().split("T")[0];
     },
     
     editItem(item) {
