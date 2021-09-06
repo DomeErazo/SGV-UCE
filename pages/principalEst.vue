@@ -559,7 +559,7 @@ export default {
             content: "No ha completado su proceso de vacunación",
             color: "warning",
           });
-          this.close();
+          this.closePDF();
         }
       }
     },
@@ -585,7 +585,7 @@ export default {
             content: "No ha completado su proceso de vacunación",
             color: "warning",
           });
-          this.close();
+          this.closeCorreo();
         }
       }
     },
@@ -613,9 +613,15 @@ export default {
               authorization:
                 "SGVUCE " + this.$cookies.get("ROLE_USER").token_acceso,
             },
+
           }
+          
         );
-      } catch (error) {}
+        this.closeAcept();
+        this.inoculacionVoluntaria1=false;
+      } catch (error) {
+
+      }
     },
   },
 };

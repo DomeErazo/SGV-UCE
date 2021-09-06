@@ -11,17 +11,16 @@
           outlined
           v-model="facul"
           rounded
-          @click="obtenerGrafica"
         ></v-autocomplete>
       </v-col>
-      <!-- <v-btn @click="obtenerGrafica" color="primary" style="margin-top:-25px" v-model="boton">Buscar Gráfica</v-btn> -->
+      <v-btn @click="obtenerGrafica" color="primary" style="margin-top:-25px">Buscar Gráfica</v-btn>
     </v-row>
     <v-row>
       <GChart
         type="ColumnChart"
         id="grafica"
         :data="chartData"
-        v-if="facul"
+     
        
       />
     </v-row>
@@ -67,6 +66,7 @@ export default {
   },
   mounted() {
     this.obtenerFac();
+    this.grafica();
   },
 
   watch: {
@@ -80,6 +80,14 @@ export default {
   },
   computed: {},
   methods: {
+    async grafica(){
+      this.chartData=[ ["Nombre", "Valores"],
+          ["Total estudiantes a inocular", 0],
+          ["Estudiantes que no aceptaron la vacuna", 0],
+          ["Total estudiantes", 0],
+          ["Inoculados primera fase", 0],
+          ["Inoculados segunda Fase", 0],];
+    },
     async obtenerGrafica() {
       this.items.slice();
       let facu = this.$cookies.get("facu");
@@ -127,6 +135,7 @@ export default {
             content: "La facultad no cuenta con un plan",
             color: "warning",
           });
+            this.chartData=[]
         } else if (err.response.status == 403) {
           this.$cookies.remove("ROLE_ADMIN");
           this.$notifier.showMessage({
@@ -135,6 +144,12 @@ export default {
           });
           this.$router.push("/login");
         }
+        this.chartData=[ ["Nombre", "Valores"],
+          ["Total estudiantes a inocular", 0],
+          ["Estudiantes que no aceptaron la vacuna", 0],
+          ["Total estudiantes", 0],
+          ["Inoculados primera fase", 0],
+          ["Inoculados segunda Fase", 0],];
       }
     },
 
