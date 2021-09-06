@@ -272,13 +272,16 @@ export default {
   },
   methods: {
     async fecha() {
-     fechaReserva.min = new Date().toISOString().split("T")[0];
-     fechaReservaFinal.min = new Date().toISOString().split("T")[0];
+      
+const fecha=new Date()
+     fechaReserva.min = new Date(fecha.getTime() - 24*60*60*1000).toISOString().split("T")[0];
+     fechaReservaFinal.min = new Date(fecha.getTime() - 24*60*60*1000).toISOString().split("T")[0];
      },
 
       async fechaEdit() {
-     fechaReserva2.min = new Date().toISOString().split("T")[0];
-     fechaReserva3.min = new Date().toISOString().split("T")[0];
+        const fecha1=new Date()
+     fechaReserva2.min = new Date(fecha1.getTime() - 24*60*60*1000).toISOString().split("T")[0];
+     fechaReserva3.min = new Date(fecha1.getTime() - 24*60*60*1000).toISOString().split("T")[0];
     },
     
     editItem(item) {

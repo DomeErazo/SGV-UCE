@@ -3,16 +3,16 @@
     <v-responsive :aspect-ratio="16 /9">
       <h1
         style="text-align: center; margin-bottom: 10px"
-      >Bienvenido al Sistema Gratuito de Vacunación Uce</h1>
+      >Bienvenido al Sistema de Gestión de Vacunación Uce</h1>
       <img class="imagen" src="/ingresoControlador.svg" />
       <v-card-text>
        
         <br />
         <p class="texto">
           Como Universidad Central del Ecuador nos hemos sumado a esta lucha hombro a hombro para poder hacerle
-          frente al covid-19, a través de la Inoculación de la comunidad educativa, siendo los estudiantes
-          los usuarios que accederan a las brigadas de Vacunación, la cual se llevará acabo en las instalaciones
-          de la Universidad Central del Ecuador.Este sistema fue creado con el fin de poder ser un soporte a la
+          frente a la pandemia provocada por el virus covid-19 a través de la Inoculación de la vacuna a la comunidad educativa,
+           siendo los estudiantes quienes accederán a las brigadas de Vacunación, la cual se llevará acabo en las instalaciones
+          de la Universidad Central del Ecuador. Este sistema fue creado con el fin de poder ser un soporte a la
           Universidad Central del Ecuador y al Ministerio de Salud del Ecuador, en el sistema de vacunación que
           actualmente se esta llevando acabo en todo el pais.
         </p>
