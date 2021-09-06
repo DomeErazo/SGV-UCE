@@ -115,7 +115,7 @@ export default {
         console.log(err);
         if (err.response.status == 401) {
           this.$notifier.showMessage({
-            content: "Datos incorrectos",
+            content: "Datos incorrectos, por favor corrija para continuar",
             color: "error",
           });
         }
