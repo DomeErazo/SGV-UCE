@@ -119,7 +119,7 @@
                       <v-col cols="9" style="margin-top: -25px">
                         <v-text-field
                           name="primera dosis"
-                          v-model="primeraDosis"
+                          v-model="primeraDosis1"
                           type="text"
                           color="secondary"
                           disabled
@@ -169,7 +169,7 @@
                       <v-col cols="9" style="margin-top: -25px">
                         <v-text-field
                           name="segundaDosis"
-                          v-model="segundaDosis"
+                          v-model="segundaDosis1"
                           type="text"
                           color="secondary"
                           disabled
@@ -203,7 +203,7 @@
                     </v-row>
                     <v-row aling="center" justify="center">
                       <v-col cols="7" style="padding-right: 0px">
-                        <p>
+                        <p v-if="this.inoculacionVoluntaria1">
                           Acepta ser parte del proceso de vacunación de manera
                           <strong>VOLUNTARIA?</strong>
                         </p>
@@ -216,7 +216,10 @@
                           v-model="inoculacionVoluntaria1"
                           color="primary"
                           label="Si/No"
-                          @click="editarCarnet"
+                          @click="aceptItem(item)"
+                          v-if="this.inoculacionVoluntaria1 "
+                          :disabled="this.primeraDosis1==`Vacunado`"
+                         
                         >
                         </v-checkbox
                       ></v-col>
@@ -295,17 +298,19 @@
                 <v-row>
                   <v-icon>mdi-file-pdf</v-icon>
 
-                  <v-radio label="PDF" value="pdf" @click="carnetPDF"
-                    >hola</v-radio
-                  ></v-row
-                >
+                  <v-radio
+                    label="PDF"
+                    value="pdf"
+                    @click="PDFItem(item)"
+                  ></v-radio
+                ></v-row>
                 <v-row></v-row>
                 <v-row>
                   <v-icon>mdi-email</v-icon>
                   <v-radio
                     label="Correo"
                     value="correo"
-                    @click="carnetCorreo"
+                    @click="correoItem(item)"
                   ></v-radio
                 ></v-row>
               </v-radio-group>
@@ -321,18 +326,60 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog v-model="dialogPDF" max-width="500px">
+        <v-card>
+          <v-card-title class="text-h7"
+            >¿Estás seguro que deseas descargar el PDF?</v-card-title
+          >
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="closePDF">Cancelar</v-btn>
+            <v-btn color="blue darken-1" text @click="carnetPDF">Aceptar</v-btn>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+       <v-dialog v-model="dialogAcept" max-width="700px">
+        <v-card>
+          <v-card-title class="text-h7"
+            >¿Estás seguro que no desea formar parte del proceso de vacunación?</v-card-title
+          >
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="closeAcept">Cancelar</v-btn>
+            <v-btn color="blue darken-1" text @click="editarCarnet">Confirmar</v-btn>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="dialogCorreo" max-width="750px">
+        <v-card>
+          <v-card-title class="text-h7"
+            >¿Estás seguro que desea recibir el carnet a través de su correo
+            electrónico?</v-card-title
+          >
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="closeCorreo"
+              >Cancelar</v-btn
+            >
+            <v-btn color="blue darken-1" text @click="carnetCorreo"
+              >Aceptar</v-btn
+            >
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
   </v-app>
 </template>
 <script>
 var f = new Date();
-document.write(f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear());
+document.write(f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear());
 </script>
 
 <script>
-
-
-  
 import axios from "axios";
 export default {
   layout: "estudiante",
@@ -352,13 +399,17 @@ export default {
       nombreVacuna: "",
       fechaPrimeraDosis: "",
       primeraDosis: false,
-      fechaSegundaDosis: false,
-      segundaDosis: "",
+      segundaDosis:false,
+      fechaSegundasDosis: "",
+     
       items: [],
       inoculacionVoluntaria1: false,
       dialog: false,
+      dialogPDF: false,
+      dialogCorreo: false,
+      dialogAcept: false,
       editedIndex: -1,
-      
+
       opciones: [
         { icon: "mdi-pancil", text: "PDF" },
         { text: "correo electrónico", icon: "mdi-email" },
@@ -367,17 +418,23 @@ export default {
         formTitle() {
           return "Certificado";
         },
-        
       },
       watch: {
         dialog(val) {
           val || this.close();
         },
-        
+        dialogPDF(val) {
+          val || this.closePDF();
+        },
+        dialogCorreo(val){
+           val || this.closeCorreo();
+        },
+        dialogAcept(val){
+           val || this.closeAcept();
+        }
       },
       editedItem: {},
     };
-
   },
 
   mounted() {
@@ -386,7 +443,28 @@ export default {
   },
 
   methods: {
-   
+    PDFItem(item) {
+      this.dialogPDF = true;
+      this.dialog = false;
+    },
+    closePDF() {
+      this.dialogPDF = false;
+    },
+     aceptItem(item) {
+      this.dialogAcept = true;
+      
+    },
+    closeAcept() {
+      this.dialogAcept = false;
+      this.inoculacionVoluntaria1=true;
+    },
+    correoItem(item) {
+      this.dialogCorreo = true;
+      this.dialog = false;
+    },
+    closeCorreo() {
+      this.dialogCorreo = false;
+    },
     close() {
       this.dialog = false;
       this.$nextTick(() => {
@@ -430,7 +508,7 @@ export default {
           (this.estudiante = resp.data.estudiante),
           (this.nombreVacuna = resp.data.nombreVacuna),
           (this.fechaPrimeraDosis = resp.data.fechaPrimeraDosis),
-          (this.fechaSegundaDosis = resp.data.fechaSegundasDosis),
+          (this.fechaSegundasDosis = resp.data.fechaSegundasDosis),
           (this.vacunadorPrimeraDosis = resp.data.vacunadorPrimeraDosis),
           (this.vacunadorSegundaDosis = resp.data.vacunadorSegundaDosis),
           (this.loteDosisUno = resp.data.loteDosisUno),
@@ -439,17 +517,16 @@ export default {
           (this.fechaNacimiento = resp.data.fechaNacimiento),
           (this.inoculacionVoluntaria1 = resp.data.inoculacionVoluntaria);
         if (resp.data.primeraDosis == true) {
-          this.primeraDosis = "Vacunado";
+          this.primeraDosis1 = "Vacunado";
         } else {
-          this.primeraDosis = "Pendiente";
+          this.primeraDosis1 = "Pendiente";
         }
         if (resp.data.segundaDosis == true) {
-          this.segundaDosis = "Vacunado";
+          this.segundaDosis1 = "Vacunado";
         } else {
-          this.segundaDosis = "Pendiente";
+          this.segundaDosis1 = "Pendiente";
         }
 
-        console.log(resp);
       } catch (err) {
         if (err.response.status == 403) {
           this.$cookies.remove("ROLE_ADMIN");
@@ -461,12 +538,7 @@ export default {
         }
       }
     },
-    async link(){
-      let user = this.$cookies.get("ROLE_USER").usuario;
 
-     
-      
-    },
     async carnetPDF() {
       let user = this.$cookies.get("ROLE_USER").usuario;
       try {
@@ -476,15 +548,10 @@ export default {
               "SGVUCE " + this.$cookies.get("ROLE_USER").token_acceso,
           },
         });
-        window.location.href=`api/carnet/descargarCarnert/${user}`
+        window.location.href = `api/carnet/descargarCarnert/${user}`;
 
-      
-
-        
+        this.closePDF();
         this.close();
-        
-        
-        
       } catch (err) {
         console.log("error" + err);
         if (err.response.status == 400) {
@@ -506,10 +573,11 @@ export default {
           },
         });
         this.close();
-         this.$notifier.showMessage({
-            content: "Se ha enviado el certificado a su correo electrónico",
-            color: "success",
-          });
+        this.closeCorreo();
+        this.$notifier.showMessage({
+          content: "Se ha enviado el certificado a su correo electrónico",
+          color: "success",
+        });
       } catch (err) {
         console.log("error" + err);
         if (err.response.status == 400) {
@@ -531,9 +599,9 @@ export default {
             estudiante: this.estudiante,
             nombreVacuna: this.nombreVacuna,
             fechaPrimeraDosis: this.fechaPrimeraDosis,
-            fechaSegundaDosis: this.fechaSegundaDosis,
+            fechaSegundasDosis: this.fechaSegundasDosis,
             vacunadorPrimeraDosis: this.vacunadorPrimeraDosis,
-            vacunadorSegundaDosis: this.segundaDosis,
+            vacunadorSegundaDosis: this.vacunadorSegundaDosis,
             primeraDosis: this.primeraDosis,
             loteDosisUno: this.loteDosisUno,
             loteDosisDos: this.loteDosisDos,

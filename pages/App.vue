@@ -1,7 +1,9 @@
 <template>
 <v-responsive :aspect-ratio="16 / 9">
   <div id="app">
+    <v-row style="margin-top:5px; margin-left:10px; color:blue" ><p>Elija la facultad de la que desea ver la gráfica con los datos estadísticos</p></v-row>
     <v-row align="center" justify="center" style="margin-top:5px">
+
       <v-col cols="12" sm="15" md="8">
         <v-autocomplete
           :items="listaFacultades"
@@ -9,16 +11,18 @@
           outlined
           v-model="facul"
           rounded
+          @click="obtenerGrafica"
         ></v-autocomplete>
       </v-col>
-      <v-btn @click="obtenerGrafica" color="primary" style="margin-top:-25px">Buscar Gráfica</v-btn>
+      <!-- <v-btn @click="obtenerGrafica" color="primary" style="margin-top:-25px" v-model="boton">Buscar Gráfica</v-btn> -->
     </v-row>
     <v-row>
       <GChart
         type="ColumnChart"
         id="grafica"
         :data="chartData"
-        :options="chartOptions"
+        v-if="facul"
+       
       />
     </v-row>
   </div>
@@ -53,12 +57,12 @@ export default {
       arr3: 0,
 
       chartData: [],
-      chartOptions: {
-        chart: {
-          title: "Company Performance",
-          subtitle: "Sales, Expenses, and Profit: 2014-2017",
-        },
-      },
+      // chartOptions: {
+      //   chart: {
+      //     title: "Company Performance",
+      //     subtitle: "Sales, Expenses, and Profit: 2014-2017",
+      //   },
+      // },
     };
   },
   mounted() {
@@ -113,19 +117,10 @@ export default {
           ["Estudiantes que no aceptaron la vacuna", this.arr3],
           ["Total estudiantes", this.arr4],
           ["Inoculados primera fase", this.arr1],
-
           ["Inoculados segunda Fase", this.arr0],
         ];
-        // console.log(arreglo)
-        // Object.values(arreglo)
-        // const datos = resp.data;
-        // datos.forEach((elementos) => {
-        //     console.log(elementos)
-        // //   this.items.push(`${elementos}`);
-        // });
-        // this.chartData.push(arreglo[i]);
-        // this.prueba1 = Object.entries(items);
-        //  console.log(prueba1)
+        
+     
       } catch (err) {
         if (err.response.status == 404) {
           this.$notifier.showMessage({
@@ -181,4 +176,5 @@ export default {
   width: 1300px;
   height: 500px;
 }
+
 </style>

@@ -37,7 +37,7 @@
                       >
                         Consultar Lugar de Vacunacion
                       </h2>
-
+<img class="logo" src="vacuna-logo.png" />
                       <v-form>
                         <v-text-field
                           label="Usuario"
@@ -131,6 +131,11 @@ export default {
 }
 .contenedor {
   padding: 30px;
+}
+.logo {
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
 }
 .fondo {
   background: #36d1dc; /* fallback for old browsers */
