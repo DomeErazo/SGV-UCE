@@ -35,7 +35,7 @@
                           mb-5
                         "
                       >
-                        Consultar Lugar de Vacunacion
+                        Consultar Lugar de Vacunación
                       </h2>
 <img class="logo" src="vacuna-logo.png" />
                       <v-form>

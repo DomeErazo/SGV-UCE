@@ -121,7 +121,7 @@
                   color="primary"
                 >
                 </v-text-field>
-                <div>
+                <!-- <div>
                   Tiene permisos de
                   <strong>controlador?</strong>
                 </div>
@@ -130,7 +130,7 @@
                   color="primary"
                   label="Si/No"
                 >
-                </v-checkbox>
+                </v-checkbox> -->
               </v-form>
             </v-card-text>
 

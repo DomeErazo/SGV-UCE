@@ -18,7 +18,7 @@
         </v-toolbar-title>
 
         <v-spacer />
-        <v-text-field
+        <!-- <v-text-field
           v-if="!$vuetify.breakpoint.xs"
           dense
           label="Búsqueda de modulos"
@@ -28,7 +28,7 @@
           rounded
           hide-details="auto"
           outlined
-        ></v-text-field>
+        ></v-text-field> -->
         <v-spacer />
 
         <div class="text-center">

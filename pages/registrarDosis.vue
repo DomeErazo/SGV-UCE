@@ -147,7 +147,7 @@
           </v-dialog>
         </template>
         <template v-slot:no-data>
-          <v-btn text> No se ha elegido la facultad y la fase </v-btn>
+          <v-btn text> No hay registros </v-btn>
         </template>
         <template v-slot:[`item.primeraDosis`]="{ item }">
           <v-checkbox v-model="primeraDosis" v-if="item.primeraDosis" disabled>

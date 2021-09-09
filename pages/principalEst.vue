@@ -296,7 +296,7 @@
             <v-container>
               <v-radio-group column>
                 <v-row>
-                  <v-icon>mdi-file-pdf</v-icon>
+                  <v-icon>mdi-file-pdf-box</v-icon>
 
                   <v-radio
                     label="PDF"
@@ -411,7 +411,7 @@ export default {
       editedIndex: -1,
 
       opciones: [
-        { icon: "mdi-pancil", text: "PDF" },
+        { text: "PDF", icon: "mdi-file-pdf-box" },
         { text: "correo electrónico", icon: "mdi-email" },
       ],
       computed: {
