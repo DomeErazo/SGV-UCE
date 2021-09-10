@@ -158,15 +158,7 @@ export default {
       items: [
         { title: 'Inicio', icon: 'mdi-home-export-outline', route: '/inicioCont/', key: 1 },
         { title: 'Registrar', icon: 'mdi-account-group-outline', route: '/registrarDosis', key: 2 },
-        // { title: 'Facultades', icon: 'mdi-home-edit', route: '/userUniversidad/pasoUno', key: 3 },
-
-        // { title: 'Alcance', icon: 'mdi-account', route: '/userUniversidad/alcance', key: 3 },
-        // { title: 'Liderazgo', icon: 'mdi-pen', route: '/userUniversidad/liderazgo', key: 4 },
-        // { title: 'Paso 2 - Actividades Prioritarias', icon: 'mdi-account-supervisor-outline', route: '/userUniversidad/pasoDos', key: 4 },
-        // { title: 'Paso 3 - Recursos Escenciales', icon: 'mdi-ab-testing', route: '/userUniversidad/pasoTres', key: 5 },
-        // { title: 'Paso 4 - Evaluacion de Riesgos', icon: 'mdi-notebook-edit-outline', route: '/userUniversidad/riesgos', key: 6 },
-        // { title: 'Paso 5 - Protección ante Desastres', icon: 'mdi-alert', route: '/userUniversidad/mitigacion', key: 7 },
-      ],
+        ],
     };
   },
   methods: {
