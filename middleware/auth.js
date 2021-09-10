@@ -2,6 +2,7 @@ export default async function ({
   route, redirect, $cookies
 }) {
   const { path } = route
+  console.log(path)
   if (path.startsWith('/inicioAdmin')) {
     if (!$cookies.get('ROLE_ADMIN')) {
       redirect('/login')
@@ -15,11 +16,11 @@ export default async function ({
   if (!$cookies.get('ROLE_HC')) {
     redirect('/login')
 
-  }else if(path.name==='/'){
-    redirect ('/login')
   }
- 
-
+  
+  }
+ else if(path==='/'){
+    redirect('/login')
   }
 
 
