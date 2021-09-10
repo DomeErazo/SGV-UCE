@@ -67,10 +67,10 @@
 
               <v-card-text>
                 <v-container>
-                  <v-row>
+                  <v-row  v-if="fase1 == 'PRIMERA'">
                     <v-col cols="12" sm="6" md="6">
                       <v-checkbox
-                        v-if="(fase = 'PRIMERA')"
+                       
                         v-model="editedItem.primeraDosis"
                         label="Primera Dosis"
                         :disabled="editedItem.segundaDosis"
@@ -78,9 +78,10 @@
                       ></v-checkbox>
                     </v-col>
                   </v-row>
-                  <v-row>
+                  <v-row v-if="fase1 == 'PRIMERA'">
                     <v-col cols="12" sm="6" md="6">
                       <v-autocomplete
+                      
                         v-if="editedItem.primeraDosis"
                         v-model="editedItem.nombreVacuna"
                         label="Vacuna"
@@ -112,6 +113,7 @@
                         v-if="fase1 == 'SEGUNDA'"
                         v-model="editedItem.segundaDosis"
                         label="Segunda Dosis"
+                        
                       ></v-checkbox>
                     </v-col>
                   </v-row>
@@ -147,7 +149,7 @@
           </v-dialog>
         </template>
         <template v-slot:no-data>
-          <v-btn text> No se ha elegido la facultad y la fase </v-btn>
+          <v-btn text> No hay registros </v-btn>
         </template>
         <template v-slot:[`item.primeraDosis`]="{ item }">
           <v-checkbox v-model="primeraDosis" v-if="item.primeraDosis" disabled>

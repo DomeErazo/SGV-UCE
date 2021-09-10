@@ -31,7 +31,6 @@
                   outlined
                   rounded
                   v-model="nombres"
-                  
                   type="text"
                   color="primary"
                 >
@@ -42,7 +41,6 @@
                   outlined
                   rounded
                   v-model="apellidos"
-                  
                   type="text"
                   color="primary"
                 >
@@ -55,6 +53,7 @@
                   v-model="cedula"
                   :rules="[rules.cedula, rules.counter, rules.ced]"
                   counter
+                
                   maxlength="10"
                   color="primary"
                 >
@@ -68,7 +67,6 @@
                   type="date"
                   name="user_date"
                   id="user_date"
-                
                 ></v-text-field>
                 <!-- <input type="date" v-model="fechaNacimiento" @click="calculateAge" name="user_date" id="user_date"/> -->
                 <v-text-field
@@ -89,7 +87,6 @@
                   outlined
                   rounded
                   v-model="genero"
-                
                 ></v-select>
 
                 <v-autocomplete
@@ -106,7 +103,6 @@
                   rounded
                   v-model="semestre"
                   type="number"
-                 
                   color="primary"
                 >
                 </v-text-field>
@@ -121,7 +117,7 @@
                   color="primary"
                 >
                 </v-text-field>
-                <div>
+                <!-- <div>
                   Tiene permisos de
                   <strong>controlador?</strong>
                 </div>
@@ -130,7 +126,7 @@
                   color="primary"
                   label="Si/No"
                 >
-                </v-checkbox>
+                </v-checkbox> -->
               </v-form>
             </v-card-text>
 
@@ -139,12 +135,10 @@
               color="secondary"
               :disabled="!valid"
               type="button"
-              
               @click="calculateAge"
             >
               Agregar
             </v-btn>
-           
           </v-col>
         </v-row>
       </div>
@@ -201,7 +195,8 @@
                               :rules="[
                                 rules.ced,
                                 rules.counter,
-                                rules.required, rules.ced
+                                rules.required,
+                                rules.ced,
                               ]"
                               counter
                               maxlength="10"
@@ -337,9 +332,7 @@ export default {
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
           return pattern.test(value) || "No es un correo válido.";
         },
-        cedula: (value)=>this.validar(value) || "Cédula inválida",
-        
-      
+        cedula: (value) => this.validar(value) || "Cédula inválida",
       },
 
       generos: ["Masculino", "Femenino"],
@@ -424,14 +417,11 @@ export default {
   mounted() {
     this.obtenerListaEst();
     this.obtenerFac();
-    
-    
   },
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "Nuevo Registro" : "Editar Registro";
     },
-   
   },
 
   watch: {
@@ -451,7 +441,7 @@ export default {
   },
 
   methods: {
-   validar(cedula) {
+    validar(cedula) {
       //var cedula = document.getElementById("ced").value.trim();
       console.log(cedula);
 
@@ -522,25 +512,22 @@ export default {
 
           //Validamos que el digito validador sea igual al de la cedula
           if (digito_validador == ultimo_digito) {
-           // document.getElementById("salida").innerHTML = "Cedula Válida";
-           return true;
+            // document.getElementById("salida").innerHTML = "Cedula Válida";
+            return true;
           } else {
             //document.getElementById("salida").innerHTML = "Cedula Inválida";
             return false;
-            
           }
         } else {
           // imprimimos en consola si la region no pertenece
-            return false;
+          return false;
         }
       } else {
-        //imprimimos en consola si la cedula tiene mas o menos de 10 digitos
-       // document.getElementById("salida").innerHTML =
-          //"Cedula Invalida contiene menos digitos";
-          return false;
+      
+        return false;
       }
     },
-    
+
     async calculateAge() {
       var d = document.getElementById("user_date").value;
       var inDate = new Date(d);
@@ -549,13 +536,12 @@ export default {
       var fec_anio = fec_actual.getFullYear();
       var edad = fec_anio - anio;
       if (edad >= 16) {
-       this.enviar()
-
+        this.enviar();
       } else {
         this.$notifier.showMessage({
-            content: `Ingrese una edad válida`,
-            color: "warning",
-          });
+          content: `Ingrese una edad válida`,
+          color: "warning",
+        });
       }
     },
     editItem(item) {
@@ -621,7 +607,7 @@ export default {
     //     console.log(err);
     //   }
     // },
-   
+
     async obtenerFac() {
       this.listaFacultades.slice();
       try {
@@ -638,7 +624,6 @@ export default {
           this.listaFacultades.push(`${facu.nombre}`);
         });
         this.prueba = res.data;
-        
       } catch (err) {
         console.log(err);
         if (err.response.status == 403) {
@@ -661,7 +646,6 @@ export default {
         });
 
         this.desserts = res.data;
-        
       } catch (err) {
         console.log(err);
         if (err.response.status == 404) {
@@ -733,11 +717,10 @@ export default {
                 authorization: "SGVUCE " + this.$cookies.get("ROLE_ADMIN"),
               },
             },
-           
-           
+
             (this.nombres = ""),
             (this.apellidos = ""),
-            this.fechaNacimiento="",
+            (this.fechaNacimiento = ""),
             (this.cedula = ""),
             (this.correo = ""),
             (this.telefono = ""),
@@ -751,11 +734,14 @@ export default {
               content: "Estudiante añadido con éxito",
               color: "success",
             });
-           
+
           console.log(res);
         } catch (err) {
           console.log(err);
-          if (err.response.data.mensaje == "Request processing failed; nested exception is java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1") {
+          if (
+            err.response.data.mensaje ==
+            "Request processing failed; nested exception is java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1"
+          ) {
             this.$notifier.showMessage({
               content: "Debe ingresar dos apellidos",
               color: "warning",
@@ -767,6 +753,53 @@ export default {
             });
           }
         }
+      }
+    },
+    async Campos() {
+  
+        try {
+          const res = await this.$axios.post(
+            "api/estudiante",
+            {
+              nombres: this.nombres.trim(),
+              apellidos: this.apellidos.trim(),
+              fechaNacimiento: this.fechaNacimiento,
+              cedula: this.cedula.trim(),
+              correo: this.correo.trim(),
+              telefono: this.telefono.trim(),
+              genero: this.genero,
+              semestre: this.semestre,
+              carrera: this.carrera,
+
+              esControlador: this.esControlador,
+            },
+            {
+              headers: {
+                authorization: "SGVUCE " + this.$cookies.get("ROLE_ADMIN"),
+              },
+            },
+
+           
+          );
+        
+
+        } catch (err) {
+          console.log(err);
+          if (
+            err.response.data.mensaje ==
+            "Request processing failed; nested exception is java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1"
+          ) {
+            this.$notifier.showMessage({
+              content: "Debe ingresar dos apellidos",
+              color: "warning",
+            });
+          } else if (err.response.status == 500) {
+            this.$notifier.showMessage({
+              content: "Cédula o Correo Duplicados",
+              color: "warning",
+            });
+          }
+        
       }
     },
   },

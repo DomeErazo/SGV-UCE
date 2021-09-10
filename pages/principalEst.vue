@@ -296,7 +296,7 @@
             <v-container>
               <v-radio-group column>
                 <v-row>
-                  <v-icon>mdi-file-pdf</v-icon>
+                  <v-icon>mdi-file-pdf-box</v-icon>
 
                   <v-radio
                     label="PDF"
@@ -345,6 +345,8 @@
           <v-card-title class="text-h7"
             >¿Estás seguro que no desea formar parte del proceso de vacunación?</v-card-title
           >
+          
+          <v-card-text > <v-icon style="color:red">mdi-alert</v-icon>  ADVERTENCIA: Al confirmar está aceptando no formar parte del proceso de vacunación, por lo tanto su decisión no será reversible </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="closeAcept">Cancelar</v-btn>
@@ -411,7 +413,7 @@ export default {
       editedIndex: -1,
 
       opciones: [
-        { icon: "mdi-pancil", text: "PDF" },
+        { text: "PDF", icon: "mdi-file-pdf-box" },
         { text: "correo electrónico", icon: "mdi-email" },
       ],
       computed: {
