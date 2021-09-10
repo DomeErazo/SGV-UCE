@@ -428,6 +428,7 @@ export default {
     formTitle() {
       return this.editedIndex === -1 ? "Nuevo Registro" : "Editar Registro";
     },
+
     
   },
 
@@ -442,6 +443,16 @@ export default {
       this.prueba.forEach((elementos) => {
         if (elementos.nombre === this.facul) {
           this.listaCarreras = elementos.carreras;
+          if(this.listaCarreras==null){
+            this.facul=null
+            
+          this.$cookies.remove("ROLE_ADMIN");
+          this.$notifier.showMessage({
+            content: `La facultad no tiene carreras ingresadas`,
+            color: "error",
+          });
+         
+          }
         }
       });
     },
@@ -629,8 +640,10 @@ export default {
 
         lis.forEach((facu) => {
           this.listaFacultades.push(`${facu.nombre}`);
+
         });
         this.prueba = res.data;
+        
       } catch (err) {
         console.log(err);
         if (err.response.status == 403) {

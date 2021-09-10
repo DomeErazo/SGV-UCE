@@ -191,6 +191,11 @@
                 mdi-pencil
               </v-icon>
             </template>
+         <template v-slot:[`item.completo`]="{ item }">
+
+           <p v-if="item.completo" style="color:green">Finalizado</p>
+           <p v-else style="color:orange">En curso</p>
+         </template>
           </v-data-table>
         </v-flex>
       </v-layout>
@@ -215,6 +220,8 @@ export default {
       dialog: false,
       notificados: "",
       facultad: "",
+      completo1:"Completado",
+      completo2:"En proceso",
       carrera: "",
       prueba: [],
       puntos: ["Coliseo UCE", "Facultad de Medicina"],
@@ -229,7 +236,7 @@ export default {
         { text: "Centro Vacunación", value: "centroVacunacion" },
         { text: "Personas Vacunadas", value: "personasVacunadas" },
         { text: "Fase", value: "fase" },
-        // { text: "Estudiantes notificados", value: "notificados" },
+        { text: "Estado", value: "completo" },
         { text: "Acciones", value: "actions", sortable: false },
       ],
       desserts: [],
@@ -338,6 +345,8 @@ const fecha=new Date()
 
         this.desserts = res.data;
         console.log(res);
+
+       
       } catch (err) {
         if (err.response.status == 404) {
           this.$notifier.showMessage({
