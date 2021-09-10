@@ -53,7 +53,7 @@
                   v-model="cedula"
                   :rules="[rules.cedula, rules.counter, rules.ced]"
                   counter
-                
+                  @change="campos"
                   maxlength="10"
                   color="primary"
                 >
@@ -343,6 +343,7 @@ export default {
       apellidos: "",
       fechaNacimiento: "", //localDate
       correo: "",
+      ced: [],
       usuario: "",
       telefono: "",
       semestre: 0,
@@ -402,6 +403,7 @@ export default {
       search: "",
       desserts: [],
       editedIndex: -1,
+      cedula1:"",
       // editedItem: {
       //   departamentoProducto: "",
       //   impactoExterno: "",
@@ -417,11 +419,16 @@ export default {
   mounted() {
     this.obtenerListaEst();
     this.obtenerFac();
+    // this.campos();
+    
+    
   },
   computed: {
+    
     formTitle() {
       return this.editedIndex === -1 ? "Nuevo Registro" : "Editar Registro";
     },
+    
   },
 
   watch: {
@@ -442,6 +449,7 @@ export default {
 
   methods: {
     validar(cedula) {
+      this.$cookies.set("cedula", cedula);
       //var cedula = document.getElementById("ced").value.trim();
       console.log(cedula);
 
@@ -523,7 +531,6 @@ export default {
           return false;
         }
       } else {
-      
         return false;
       }
     },
@@ -616,7 +623,7 @@ export default {
             authorization: "SGVUCE " + this.$cookies.get("ROLE_ADMIN"),
           },
         });
-        console.log(res);
+        // console.log(res);
 
         const lis = res.data;
 
@@ -638,6 +645,7 @@ export default {
     },
 
     async obtenerListaEst() {
+    
       try {
         const res = await axios.get("api/estudiante", {
           headers: {
@@ -646,6 +654,12 @@ export default {
         });
 
         this.desserts = res.data;
+        // this.ced=this.res.data.cedula;
+        const bus = res.data;
+        bus.forEach((element) => {
+          this.ced.push(`${element.cedula}`);
+        });
+        console.log(this.ced);
       } catch (err) {
         console.log(err);
         if (err.response.status == 404) {
@@ -734,8 +748,7 @@ export default {
               content: "Estudiante añadido con éxito",
               color: "success",
             });
-
-          console.log(res);
+        
         } catch (err) {
           console.log(err);
           if (
@@ -755,52 +768,29 @@ export default {
         }
       }
     },
-    async Campos() {
-  
-        try {
-          const res = await this.$axios.post(
-            "api/estudiante",
-            {
-              nombres: this.nombres.trim(),
-              apellidos: this.apellidos.trim(),
-              fechaNacimiento: this.fechaNacimiento,
-              cedula: this.cedula.trim(),
-              correo: this.correo.trim(),
-              telefono: this.telefono.trim(),
-              genero: this.genero,
-              semestre: this.semestre,
-              carrera: this.carrera,
+    async campos() {
+        let cedula1=this.$cookies.get('cedula');
+      try {
+        const res = await this.$axios.get(
+          `api/estudiante/buscar/${cedula1}`,
 
-              esControlador: this.esControlador,
+          {
+            headers: {
+              authorization: "SGVUCE " + this.$cookies.get("ROLE_ADMIN"),
             },
-            {
-              headers: {
-                authorization: "SGVUCE " + this.$cookies.get("ROLE_ADMIN"),
-              },
-            },
-
-           
-          );
-        
-
-        } catch (err) {
-          console.log(err);
-          if (
-            err.response.data.mensaje ==
-            "Request processing failed; nested exception is java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1"
-          ) {
-            this.$notifier.showMessage({
-              content: "Debe ingresar dos apellidos",
-              color: "warning",
-            });
-          } else if (err.response.status == 500) {
-            this.$notifier.showMessage({
+          }
+          
+        );
+   
+        console.log(res.data)
+             if(res.data==true){
+           this.$notifier.showMessage({
               content: "Cédula o Correo Duplicados",
               color: "warning",
             });
-          }
-        
-      }
+        }
+       
+      } catch (err) {}
     },
   },
 };
