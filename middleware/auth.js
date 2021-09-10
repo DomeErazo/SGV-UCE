@@ -15,6 +15,8 @@ export default async function ({
   if (!$cookies.get('ROLE_HC')) {
     redirect('/login')
 
+  }else if(path.name==='/'){
+    redirect ('/login')
   }
  
 
